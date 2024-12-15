@@ -11,7 +11,15 @@ analysis is based on MITM attacks, it is applicable to most block ciphers
 # Report
 Inside `report` folder make with pdflatex.
 
+## Generate/Update Report
+```bash
+pdflatex main.tex
+bibtex main
+pdflatex main.tex
+```
 # Code
+
+## Execution
 Inside `src` folder make with gcc or just 
 ```bash 
 make
@@ -20,5 +28,8 @@ For every changes make sure to `make` and for running use:
 ```bash
 ./Biclique
 ```
+
+## Modification
+Values can be changed by modifying content of `Biclique.h`, including dimention, rounds etc.
 # Disclaimer
 Under test and development
