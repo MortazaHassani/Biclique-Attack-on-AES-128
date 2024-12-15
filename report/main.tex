@@ -48,11 +48,11 @@
 \section{Introduction}
 The \textbf{biclique attack} is an advanced variant of the \textbf{Meet-in-the-Middle} (MITM)\nomenclature{MITM}{Meet-in-the-Middle} attack, for the cryptanalysis of block ciphers to recover secret keys. It addresses the limitations of the traditional MITM attack, which is limited in breaking ciphers without independent key bits. In a biclique attack, the process begins by partitioning all possible secret keys into groups. For each group, a biclique structure is constructed. This structure helps in filtering out incorrect keys through partial matching, leaving candidate keys. A valid \emph{plaintext-ciphertext pair (P, C)} is used to determine the correct key. Since biclique cryptanalysis is based on MITM attacks, it is applicable to most block ciphers. In this report, we will focus on the biclique attack applied to the full AES block cipher. 
 
-\nomenclature{AES}{Advanced Encryption System}AES has been one of the most widely used and trusted block ciphers for decades. Despite several cryptanalysis efforts, no significant progress has been made in recovering the secret key of the full round AES with a computational complexity less than exhaustive key search. This is because AES was designed to withstand differential and linear cryptanalysis. (reference paper) 
+\nomenclature{AES}{Advanced Encryption System}AES has been one of the most widely used and trusted block ciphers for decades. Despite several cryptanalysis efforts, no significant progress has been made in recovering the secret key of the full round AES with a computational complexity less than exhaustive key search. This is because AES was designed to withstand differential and linear cryptanalysis. \cite{bogdanov2011biclique} 
 
-Impossible Differential Cryptanalysis was the first method to successfully attack a reduced version of AES, specifically targeting 7 rounds of AES-128. Similarly, the Square Attack was able to break 8 rounds of AES-192. These attacks, however, have not been able to extend to the full rounds of AES. 
+Impossible Differential Cryptanalysis was the first method to successfully attack a reduced version of AES, specifically targeting 7 rounds of AES-128. Similarly, the Square Attack was able to break 8 rounds of AES-192. These attacks, however, have not been able to extend to the full rounds of AES \cite{bogdanov2011biclique}. 
 
-Currently, the only attack known to break the full rounds of AES faster than exhaustive key search is the biclique attack, introduced in 2011 by Bogdanov et al(reference). This attack represented a breakthrough in cryptanalysis of the AES block cipher by achieving key recovery of the full rounds with the following reduced computational complexities: 
+Currently, the only attack known to break the full rounds of AES faster than exhaustive key search is the biclique attack, introduced in 2011 by Bogdanov et al\cite{bogdanov2011biclique}. This attack represented a breakthrough in cryptanalysis of the AES block cipher by achieving key recovery of the full rounds with the following reduced computational complexities: 
 
 \begin{table}[h!]
     \centering
@@ -69,7 +69,7 @@ Currently, the only attack known to break the full rounds of AES faster than exh
         256 & $2^{256}$ & $2^{254.42}$ \\
         \hline
     \end{tabular}
-    \caption{Biclique key recovery for AES}
+    \caption{Biclique key recovery for AES\cite{bogdanov2011biclique}}
     \label{table:1}
 \end{table}
 % \begin{itemize}
@@ -88,13 +88,13 @@ While biclique cryptanalysis breaks the full AES, this is a theoretical attack a
 
 \newpage
 \section{Background}
-The concept of bicliques was first introduced in the cryptanalysis of hash functions. It originates from the \emph{splice-and-cut} framework in hash function cryptanalysis, more specifically its element called initial structure. The biclique approach led to the best preimage attacks on the SHA family of hash functions so far, including the attack on 50 rounds of SHA-512, and the first attack on a round-reduced Skein hash function. (paper) 
+The concept of bicliques was first introduced in the cryptanalysis of hash functions. It originates from the \emph{splice-and-cut} framework in hash function cryptanalysis, more specifically its element called initial structure. The biclique approach led to the best preimage attacks on the SHA family of hash functions so far, including the attack on 50 rounds of SHA-512, and the first attack on a round-reduced Skein hash function. \cite{bogdanov2011biclique} 
 
  
 
 The biclique attack is a variant of the \emph{meet-in-the-middle} (MITM) attack. 
 It utilizes a biclique structure to extend the number of rounds that can be attacked compared to the basic MITM attack. 
-In mathematics, a biclique is a special type of \textbf{bipartite graph} where every vertex of the first set is connected to every vertex of the second set. (wikepedia). 
+In mathematics, a biclique is a special type of \textbf{bipartite graph} where every vertex of the first set is connected to every vertex of the second set. \cite{wikipedia_bipartite_graph}. 
 It can be denoted as \(K_{mn}\), where $m$ is the number of vertices in the first set and $n$ is the number of vertices in the second set. 
 
 \begin{figure}[h]
@@ -108,12 +108,12 @@ It can be denoted as \(K_{mn}\), where $m$ is the number of vertices in the firs
 Since the biclique attack builds on the principles of the MITM attack, we briefly describe the basic MITM attack to provide foundational context. 
 
 \subsection{The Basic MITM}
-The MITM attack is a time-memory trade of attack which is applied on block ciphers with independent key bits. This means that the keys used for encryption and decryption do not rely on each other, making block ciphers with multiple encryption rounds, such as double \nomenclature{DES}{Data Encryption Standard}DES (2DES), particularly vulnerable. For instance, in double DES, with a key size of $2^{112}$, MITM reduces the computational complexity of recovering the key from $2^{112}$ by using exhaustive key search to $2^{57}$. 
+The MITM attack is a time-memory trade of attack which is applied on block ciphers with independent key bits. This means that the keys used for encryption and decryption do not rely on each other, making block ciphers with multiple encryption rounds, such as double \nomenclature{DES}{Data Encryption Standard}DES (2DES), particularly vulnerable. For instance, in double DES, with a key size of $2^{112}$, MITM reduces the computational complexity of recovering the key from $2^{112}$ by using exhaustive key search to $2^{57}$ \cite{wikipedia_meet_in_the_middle}. 
 
 However, due to the key scheduling and subkey dependencies of AES, where keys for different rounds are derived from each other, MITM is not effective. And as such, the number of AES rounds that can be broken using this technique is relatively small. 
 
-For a block cipher with a key size $2^n$, an adversary partitions the key space into groups of size $2^{\text{d}} \times 2^{\text{d}}$, where \(n = 2d\). The keys are represented as a matrix \(K[i, j]\), and the cipher is divided into two sub-ciphers: $g_1$ representing the forward computation and $g_2$ backward computation. 
-\subsubsection{Steps in the MITM Attack }
+For a block cipher with a key size $2^n$, an adversary partitions the key space into groups of size $2^{\text{d}} \times 2^{\text{d}}$, where \(n = 2d\). The keys are represented as a matrix \(K[i, j]\), and the cipher is divided into two sub-ciphers\cite{bogdanov2011biclique}: $g_1$ representing the forward computation and $g_2$ backward computation. 
+\subsubsection{Steps in the MITM Attack\cite{bogdanov2011biclique}}
 \begin{enumerate}
     \item \textbf{Forward Computation} The adversary encrypts the known plaintext $P$ using all possible values of the first key subset $2^d$. The intermediate values $V_{i}$ are computed and stored alongside the corresponding key values
     \\
@@ -141,9 +141,10 @@ For a block cipher with a key size $2^n$, an adversary partitions the key space 
 The basic meet-in-the-middle attack has clear limitations in AES cipher cryptanalysis since an intermediate value can be found for a very small number of rounds only. Biclique cryptanalysis overcomes these limitations by introducing a more advanced structure, enabling attacks on the full AES.
 
 \section{The Biclique Attack}
-A \textbf{biclique} is a mathematical structure used in cryptanalysis of block ciphers to efficiently explore relationships between keys, plaintexts, and ciphertexts in a cipher. It connects $2^d$ intermediate states $\{S_j\}$ to $2^d$ Ciphertexts $\{C_i\}$ using $2^{2d}$ keys represented as $K[i, j]$. Each key $K[i, j]$ maps an intermediate state $\{S_j\}$ to a ciphertext $\{C_i\}$ through a subcipher $f$, mathematically expressed as:
+A \textbf{biclique} is a mathematical structure used in cryptanalysis of block ciphers to efficiently explore relationships between keys, plaintexts, and ciphertexts in a cipher. It connects $2^d$ intermediate states $\{S_j\}$ to $2^d$ Ciphertexts $\{C_i\}$ using $2^{2d}$ keys represented as $K[i, j]$. Each key $K[i, j]$ maps an intermediate state $\{S_j\}$ to a ciphertext $\{C_i\}$ through a subcipher $f$, mathematically expressed as\cite{bogdanov2011biclique}:
 \begin{equation}
     \forall i, j : S_j \xrightarrow[\quad f \quad]{K[i, j]} C_i
+    \label{eq:stateToCipher}
 \end{equation}
 
 
@@ -157,7 +158,7 @@ To conduct the attack, the adversary performs two preparatory steps; Key partiti
 
 \begin{enumerate}
     \item \textbf{Key Partitioning:}
-    The adversary firstly partitions the key space of the cipher into subsets or groups of size $2^{2d}$ for some $d$, where the keys are represented as $K[i, j]$ in a matrix $2^d \times 2^d$ similar to that of the MITM.
+    The adversary firstly partitions the key space of the cipher into subsets or groups of size $2^{2d}$ for some $d$, where the keys are represented as $K[i, j]$ in a matrix $2^d \times 2^d$ similar to that of the MITM\cite{bogdanov2011biclique}.
 
     \item \textbf{Cipher splitting}
     The adversary then splits the cipher into two subciphers, $f$ and $g$ such that the encryption process $e$ can be expressed as:
@@ -167,16 +168,17 @@ To conduct the attack, the adversary performs two preparatory steps; Key partiti
     \end{equation}
     
 \end{enumerate}
-Where $g$ maps the plaintext $P$ to an intermediate state $S$, and $f$ maps the intermediate state $S$ to the ciphertext $C$.
+Where $g$ maps the plaintext $P$ to an intermediate state $S$, and $f$ maps the intermediate state $S$ to the ciphertext $C$\cite{bogdanov2011biclique}.
 
 
 \subsection{Constructing bicliques}
+\label{sec:constructing_bicliques}
 After completing the preliminary steps, the next phase involves constructing the biclique. Bogdanov et al. proposed two primary methods for biclique construction: Independent Related-Key Differentials and Interleaving Related-Key Differentials.
 
 However, for the purpose of this study, we will focus only on the Independent Related-Key Differentials approach.
 
 \subsubsection{Naïve Approach or Bruteforce}
-A straightforward way to construct the biclique is to use the naive approach or brute-force method. This can be achieved when the adversary maps $2^d$ intermediate states to $2^d$ ciphertexts and then derives a key $K[i, j]$ for each intermediate state-ciphertext pair shown in equation (5). However, this involves evaluating the cipher for all $2^{2d}$ possible key pairs thus increasing the computational complexity because it takes a lot of time. A much more efficient way is for the adversary to choose the keys in advance and require them to conform to specific differentials:
+A straightforward way to construct the biclique is to use the naive approach or brute-force method. This can be achieved when the adversary maps $2^d$ intermediate states to $2^d$ ciphertexts and then derives a key $K[i, j]$ for each intermediate state-ciphertext pair shown in equation \eqref{eq:stateToCipher}. However, this involves evaluating the cipher for all $2^{2d}$ possible key pairs thus increasing the computational complexity because it takes a lot of time. A much more efficient way is for the adversary to choose the keys in advance and require them to conform to specific differentials \cite{bogdanov2011biclique}:
 
 \subsubsection{Independent Related Key Differentials}
 This approach exploits differences in keys and how they propagate through the cipher. In this case, two types of differentials are used over the subcipher $f$, $\Delta_i$-differentials and $\nabla_j$-differentials.
@@ -225,12 +227,12 @@ If the trails of the differentials do not share any active non-linear components
 
  This construction satisfies the biclique condition where every key \( K[i,j] \) maps an intermediate state \( S_j \) to a ciphertext \( C_i \) and get a \( d \)-dimensional biclique. The independence of the related-key differentials ensures that the biclique can be efficiently constructed with computational complexity of \( 2 \cdot 2^d \) evaluations of the subcipher \( f \), instead of \( 2^{2d} \) that the naive approach provides.
 
- \subsection{Steps of the General Biclique Attack}
+ \subsection{Steps of the General Biclique Attack \cite{bogdanov2011biclique}}
 
  After successful preparation, the adversary moves on to implement the attack in the following steps;
 
  \begin{enumerate}[start = 1, label={(\bfseries Step\arabic*):}]
-    \item \textbf{Constructing the Biclique} For each group of keys, \( K[i, j] \), the adversary constructs a biclique structure which maps \( 2^d \) intermediate states \( \{S_j\} \) to \( 2^d \) ciphertexts \( \{C_i\} \). This structure is based on what was discussed in the section \textit{Constructing bicliques}.
+    \item \textbf{Constructing the Biclique} For each group of keys, \( K[i, j] \), the adversary constructs a biclique structure which maps \( 2^d \) intermediate states \( \{S_j\} \) to \( 2^d \) ciphertexts \( \{C_i\} \). This structure is based on what was discussed in the section \textit{\nameref{sec:constructing_bicliques}}.
             \begin{equation}
                 \begin{array}{ccc}
                     S_0 & K[0,0] & C_0 \\
@@ -247,9 +249,12 @@ If the trails of the differentials do not share any active non-linear components
             \begin{equation}
                 C_i \xrightarrow[\epsilon^{-1}]{\text{decryption oracle}} P_i.
             \end{equation}
-    \item \textbf{Meet-In-The-Middle} For each key $K[i, j]$ in the group, the adversary maps the plaintexts obtained in step 2 to their respective intermediate state $S_j$ the using the first subcipher $g$. Simultaneously, the adversary computes the \textbf{ciphertexts} backward to their intermediate states $S_j$ using the second subcipher $f$. Using the MITM approach, the adversary tries to match the forward and backward computations at the intermediate state $S_j$ .
+    \item \textbf{Meet-In-The-Middle} For each key $K[i, j]$ in the group, the adversary maps the plaintexts obtained in step 2 to their respective intermediate state $S_j$ using the first subcipher $g$. Simultaneously, the adversary computes the \textbf{ciphertexts} backward to their intermediate states $S_j$ using the second subcipher $f$. Using the MITM approach, the adversary tries to match the forward and backward computations at the intermediate state $S_j$ .
             \begin{equation}
                 \exists i, j : P_i \xrightarrow[g]{K[i, j]} S_j.
+            \end{equation}
+            \begin{equation}
+                \exists i, j : S_j \xleftarrow[f]{K[i, j]} C_i.
             \end{equation}
     \item \textbf{Matching with Precomputations} For each key candidate, $K[i, j]$, the adversary evaluates the cipher directly to check if the computed intermediate states and ciphertexts match the expected results for the given plaintext-ciphertext pair. A valid pair proposes $K[i, j]$ as a key candidate.
 
