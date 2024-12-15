@@ -1,3 +1,14 @@
+# report
+report/.DS_Store
+report/main.aux
+report/main.lof
+report/main.log
+report/main.lot
+report/main.nlo
+report/main.nls
+report/main.synctex.gz
+report/main.toc
+
 # Prerequisites
 *.d
 
