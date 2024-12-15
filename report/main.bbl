@@ -5,4 +5,19 @@ Andrey Bogdanov, Dmitry Khovratovich, and Christian Rechberger.
 \newblock Biclique cryptanalysis of the full {AES}.
 \newblock Cryptology {ePrint} Archive, Paper 2011/449, 2011.
 
+\bibitem{wikipedia_biclique_attack}
+Wikipedia.
+\newblock Biclique attack.
+\newblock \url{https://en.wikipedia.org/wiki/Biclique_attack}.
+
+\bibitem{wikipedia_bipartite_graph}
+Wikipedia.
+\newblock Bipartite graph.
+\newblock \url{https://en.wikipedia.org/wiki/Bipartite_graph}.
+
+\bibitem{wikipedia_meet_in_the_middle}
+Wikipedia.
+\newblock Meet-in-the-middle attack.
+\newblock \url{https://en.wikipedia.org/wiki/Meet-in-the-middle_attack}.
+
 \end{thebibliography}
