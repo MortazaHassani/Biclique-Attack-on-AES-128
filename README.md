@@ -12,4 +12,13 @@ analysis is based on MITM attacks, it is applicable to most block ciphers
 Inside `report` folder make with pdflatex.
 
 # Code
-Inside `src` folder make with gcc or just ```c make```
+Inside `src` folder make with gcc or just 
+```bash 
+make
+```
+For every changes make sure to `make` and for running use:
+```bash
+./Biclique
+```
+# Disclaimer
+Under test and development
