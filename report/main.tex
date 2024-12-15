@@ -551,8 +551,8 @@ The implementation includes a validation function \texttt{validateAESImplementat
 
 Test results demonstrate successful attack for key recovery for the implemented rounds, though with higher computational complexity than theoretical bounds due to implementation simplifications. Although there has not been any successful recovery of key achieved by this code, several factors impacts this including computation limitations and possible mistakes during implementation.
 
-\section{Conclustion}
-Conclusion
+\section{Conclusion}
+
 This report explored the biclique attack on the full AES-128, demonstrating how advanced cryptanalysis techniques can marginally improve key recovery efficiency to 
 $2^126.18$. By leveraging independent-biclique structures and related-key differentials, the attack systematically reduces computational complexities compared to brute force. However, this attack remains theoretical due to constraints in computational resources. We attempted to implement a reduced version of the attack in code; however, the implementation did not succeed in recovering the key candidates due to possible mistakes in implementation and the high computational complexity of the attack. This study provided valuable insights into the complexities of the biclique attack and its application to AES-128.
 
