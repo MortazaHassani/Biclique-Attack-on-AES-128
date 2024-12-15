@@ -76,13 +76,13 @@
 \newcommand{\toc}{
 \tableofcontents
 \newpage
-\listoffigures
-\newpage
-\listoftables
-\newpage
-\section*{List of Acronyms}
-\printnomenclature
-\newpage
+% \listoffigures
+% \newpage
+% \listoftables
+% \newpage
+% \section*{List of Acronyms}
+% \printnomenclature
+% \newpage
 }
 
 \newcommand{\insererfigure}[4]{
